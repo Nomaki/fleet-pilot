@@ -11,5 +11,5 @@ test("bon après-midi l'après-midi", () => {
 });
 
 test("bonsoir le soir", () => {
-  assert.equal(greeting(new Date(2026, 9, 5, 21)), "Bonsoir !");
+  assert.equal(greeting(new Date(2026, 9, 5, 21)), "Bonne soirée !");
 });
