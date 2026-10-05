@@ -31,10 +31,10 @@ publish_once() {
   if $remove; then
     rm -rf "${work:?}/$target"
   elif [[ "$target" == "." ]]; then
-    rsync -a --delete --exclude '.git' --exclude '.nojekyll' --exclude 'pr-*/' "$src/" "$work/" || return 1
+    rsync -a --checksum --delete --exclude '.git' --exclude '.nojekyll' --exclude 'pr-*/' "$src/" "$work/" || return 1
   else
     mkdir -p "$work/$target"
-    rsync -a --delete "$src/" "$work/$target/" || return 1
+    rsync -a --checksum --delete "$src/" "$work/$target/" || return 1
   fi
 
   git -C "$work" add -A
