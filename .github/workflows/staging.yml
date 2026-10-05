@@ -1,0 +1,46 @@
+# Staging automatique d'une PR quand sa CI est verte : site/ de la PR publié dans gh-pages/pr-<n>/.
+# Déclenché par workflow_run, donc lu sur main (code de confiance) : le code de la PR est extrait
+# dans un dossier à part et seulement copié, jamais exécuté. Le run-name porte le SHA de la PR,
+# que la tour de contrôle utilise pour retrouver ce run.
+name: staging
+run-name: staging pr-${{ github.event.workflow_run.pull_requests[0].number }} ${{ github.event.workflow_run.head_sha }}
+on:
+  workflow_run:
+    workflows: [ci]
+    types: [completed]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gh-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: >-
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_repository.full_name == github.repository &&
+      github.event.workflow_run.pull_requests[0].number
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+      url: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-${{ github.event.workflow_run.pull_requests[0].number }}/
+    steps:
+      - name: Code de confiance (main)
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: trusted
+          persist-credentials: false
+      - name: Fichiers de la PR (copiés, jamais exécutés)
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          path: pr
+          persist-credentials: false
+      - name: Publication
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.workflow_run.pull_requests[0].number }}
+        run: trusted/.github/scripts/publish.sh pr/site "pr-${PR_NUMBER}"
