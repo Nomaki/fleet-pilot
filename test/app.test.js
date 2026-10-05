@@ -6,8 +6,8 @@ test("bonjour le matin", () => {
   assert.equal(greeting(new Date(2026, 9, 5, 9)), "Bonjour !");
 });
 
-test("bon après-midi l'après-midi", () => {
-  assert.equal(greeting(new Date(2026, 9, 5, 15)), "Bon après-midi !");
+test("bel après-midi l'après-midi", () => {
+  assert.equal(greeting(new Date(2026, 9, 5, 15)), "Bel après-midi !");
 });
 
 test("bonsoir le soir", () => {

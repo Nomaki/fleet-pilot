@@ -3,6 +3,6 @@
 export function greeting(date) {
   const hour = date.getHours();
   if (hour < 12) return "Bonjour !";
-  if (hour < 18) return "Bon après-midi !";
+  if (hour < 18) return "Bel après-midi !";
   return "Bonsoir !";
 }
