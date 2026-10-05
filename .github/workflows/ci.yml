@@ -19,3 +19,4 @@ jobs:
         with:
           node-version-file: .nvmrc
       - run: node --test
+      - run: test/publish.test.sh

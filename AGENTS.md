@@ -6,7 +6,7 @@ Site statique jouet de la flotte : il sert à vérifier le chemin complet demand
 
 - Langage, version (fichier qui la fixe) : HTML, CSS et JavaScript sans dépendance ; Node pour les tests (`.nvmrc`)
 - Installer : rien à installer
-- Tests : `node --test` ; lint : aucun
+- Tests : `node --test` (site) et `test/publish.test.sh` (publication sur gh-pages) ; lint : aucun
 - Où vit le code, où vivent les tests : le site dans `site/` (publié tel quel), les tests dans `test/`
 - Conventions propres au repo :
   - la logique va dans `site/app.js`, en fonctions pures exportées, chacune testée dans `test/app.test.js` ;
