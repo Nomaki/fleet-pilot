@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: gh-pages
+  group: pages-cleanup-${{ github.event.pull_request.number }}
   cancel-in-progress: false
 
 jobs:
